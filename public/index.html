@@ -7,351 +7,382 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a0c1a 0%, #0f172a 100%);
-            color: #ffffff;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 0;
-            flex-wrap: wrap;
-            gap: 20px;
-            border-bottom: 1px solid rgba(59,130,246,0.2);
-        }
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #60a5fa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            cursor: pointer;
-        }
-        .logo span {
-            background: linear-gradient(135deg, #60a5fa, #a855f7);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .nav-links a {
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .nav-links a:hover {
-            color: #60a5fa;
-        }
-        .btn-connect {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .btn-connect:hover {
-            transform: translateY(-2px);
-        }
-        .page {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-        .page.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .hero {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 48px;
-            padding: 60px 0;
-            align-items: center;
-        }
-        .hero-left {
-            flex: 1;
-            min-width: 280px;
-        }
-        .hero-left h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            line-height: 1.2;
-            background: linear-gradient(135deg, #fff, #60a5fa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 24px;
-        }
-        .badge-group {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin: 32px 0;
-        }
-        .badge {
-            background: rgba(59,130,246,0.1);
-            backdrop-filter: blur(10px);
-            padding: 12px 20px;
-            border-radius: 60px;
-            border: 1px solid rgba(59,130,246,0.3);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .badge:hover {
-            background: rgba(59,130,246,0.2);
-            transform: translateY(-2px);
-        }
-        .hero-right {
-            flex: 1;
-            background: rgba(15,23,42,0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 32px;
-            padding: 48px;
-            text-align: center;
-            border: 1px solid rgba(59,130,246,0.3);
-        }
-        .buy-crypto-section {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border-radius: 32px;
-            padding: 48px;
-            margin: 60px 0;
-            text-align: center;
-            border: 1px solid rgba(59,130,246,0.2);
-        }
-        .payment-methods {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin: 32px 0;
-        }
-        .payment-method {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-        .payment-method i {
-            font-size: 2rem;
-            color: #60a5fa;
-        }
-        .learn-more-btn {
-            background: white;
-            color: #0f172a;
-            border: none;
-            padding: 12px 32px;
-            border-radius: 40px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        .trading-section {
-            background: rgba(15,23,42,0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 32px;
-            padding: 48px;
-            margin: 60px 0;
-            text-align: center;
-            border: 1px solid rgba(59,130,246,0.2);
-        }
-        .domain {
-            font-family: monospace;
-            font-size: 1.2rem;
-            color: #60a5fa;
-            margin: 16px 0;
-        }
-        .feature-grid, .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-            margin: 48px 0;
-        }
-        .feature-card, .testimonial-card {
-            background: rgba(15,23,42,0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 32px;
-            text-align: center;
-            border: 1px solid rgba(59,130,246,0.2);
-            transition: transform 0.2s;
-        }
-        .feature-card:hover, .testimonial-card:hover {
-            transform: translateY(-4px);
-            border-color: #3b82f6;
-        }
-        .feature-card i, .testimonial-card i {
-            font-size: 2rem;
-            color: #60a5fa;
-            margin-bottom: 20px;
-        }
-        .modal, .input-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content, .input-modal-content {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border-radius: 32px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            border: 1px solid rgba(59,130,246,0.3);
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 28px;
-            color: white;
-            cursor: pointer;
-        }
-        .wallet-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .wallet-option {
-            background: rgba(59,130,246,0.1);
-            border: 1px solid rgba(59,130,246,0.3);
-            border-radius: 16px;
-            padding: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .wallet-option:hover {
-            background: rgba(59,130,246,0.2);
-            transform: translateX(4px);
-        }
-        .input-method-tabs {
-            display: flex;
-            gap: 16px;
-            margin: 24px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-        }
-        .method-tab {
-            padding: 12px 0;
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.6);
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .method-tab.active {
-            color: #60a5fa;
-            border-bottom: 2px solid #60a5fa;
-        }
-        .input-panel {
-            display: none;
-        }
-        .input-panel.active {
-            display: block;
-        }
-        textarea, input {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid rgba(59,130,246,0.3);
-            border-radius: 12px;
-            background: rgba(0,0,0,0.3);
-            color: white;
-            font-family: monospace;
-            margin: 16px 0;
-        }
-        .json-upload-area {
-            border: 2px dashed rgba(59,130,246,0.3);
-            border-radius: 12px;
-            padding: 32px;
-            text-align: center;
-            cursor: pointer;
-            margin: 16px 0;
-        }
-        .submit-input-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 40px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 24px;
-        }
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: #10b981;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 40px;
-            display: none;
-            z-index: 1200;
-        }
-        .toast.error {
-            background: #ef4444;
-        }
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            border-top: 1px solid rgba(59,130,246,0.2);
-            color: rgba(255,255,255,0.7);
-        }
-        @media (max-width: 768px) {
-            .hero-left h1 {
-                font-size: 2rem;
-            }
-            .navbar {
-                flex-direction: column;
-                text-align: center;
-            }
-            .nav-links {
-                justify-content: center;
-            }
-            .wallet-options {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #0a0c1a 0%, #0f172a 100%);
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+/* Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0;
+    flex-wrap: wrap;
+    gap: 20px;
+    border-bottom: 1px solid rgba(59,130,246,0.2);
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff, #60a5fa);
+    -webkit-background-clip: text;
+    color: transparent;
+    cursor: pointer;
+}
+
+.logo span {
+    background: linear-gradient(135deg, #60a5fa, #a855f7);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: #60a5fa;
+}
+
+/* Buttons */
+.btn-connect {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-connect:hover {
+    transform: translateY(-2px);
+}
+
+/* Pages */
+.page {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero */
+.hero {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    padding: 60px 0;
+    align-items: center;
+}
+
+.hero-left {
+    flex: 1;
+    min-width: 280px;
+}
+
+.hero-left h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #fff, #60a5fa);
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 24px;
+}
+
+.hero-right {
+    flex: 1;
+    background: rgba(15,23,42,0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 32px;
+    padding: 48px;
+    text-align: center;
+    border: 1px solid rgba(59,130,246,0.3);
+}
+
+/* Badges */
+.badge-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: 32px 0;
+}
+
+.badge {
+    background: rgba(59,130,246,0.1);
+    backdrop-filter: blur(10px);
+    padding: 12px 20px;
+    border-radius: 60px;
+    border: 1px solid rgba(59,130,246,0.3);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.badge:hover {
+    background: rgba(59,130,246,0.2);
+    transform: translateY(-2px);
+}
+
+/* Sections */
+.buy-crypto-section,
+.trading-section {
+    background: rgba(15,23,42,0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 32px;
+    padding: 48px;
+    margin: 60px 0;
+    text-align: center;
+    border: 1px solid rgba(59,130,246,0.2);
+}
+
+/* Payment */
+.payment-methods {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin: 32px 0;
+}
+
+.payment-method {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.payment-method i {
+    font-size: 2rem;
+    color: #60a5fa;
+}
+
+/* Cards */
+.feature-grid,
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+    margin: 48px 0;
+}
+
+.feature-card,
+.testimonial-card {
+    background: rgba(15,23,42,0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 32px;
+    text-align: center;
+    border: 1px solid rgba(59,130,246,0.2);
+    transition: transform 0.2s;
+}
+
+.feature-card:hover,
+.testimonial-card:hover {
+    transform: translateY(-4px);
+    border-color: #3b82f6;
+}
+
+/* MODAL FIXED */
+.modal,
+.input-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    overflow-y: auto; /* ✅ SCROLL ENABLED */
+}
+
+/* Modal content */
+.modal-content,
+.input-modal-content {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border-radius: 32px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    border: 1px solid rgba(59,130,246,0.3);
+
+    max-height: 90vh; /* ✅ FIX HEIGHT */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Modal header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Wallet list (SCROLL FIX) */
+.wallet-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    max-height: 300px;   /* ✅ */
+    overflow-y: auto;    /* ✅ */
+    padding-right: 6px;
+}
+
+.wallet-option {
+    background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 16px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.wallet-option:hover {
+    background: rgba(59,130,246,0.2);
+    transform: translateX(4px);
+}
+
+/* Scrollbar */
+.wallet-options::-webkit-scrollbar {
+    width: 6px;
+}
+.wallet-options::-webkit-scrollbar-thumb {
+    background: #3b82f6;
+    border-radius: 10px;
+}
+
+/* Inputs */
+textarea,
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 12px;
+    background: rgba(0,0,0,0.3);
+    color: white;
+    font-family: monospace;
+    margin: 16px 0;
+}
+
+/* Upload */
+.json-upload-area {
+    border: 2px dashed rgba(59,130,246,0.3);
+    border-radius: 12px;
+    padding: 32px;
+    text-align: center;
+    cursor: pointer;
+    margin: 16px 0;
+}
+
+/* Buttons */
+.submit-input-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 40px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 24px;
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #10b981;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 40px;
+    display: none;
+    z-index: 1200;
+}
+
+.toast.error {
+    background: #ef4444;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 40px 0;
+    border-top: 1px solid rgba(59,130,246,0.2);
+    color: rgba(255,255,255,0.7);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-left h1 {
+        font-size: 2rem;
+    }
+
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav-links {
+        justify-content: center;
+    }
+
+    .wallet-options {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 </head>
 <body>
 <div class="container">
@@ -471,21 +502,110 @@
 
 <div id="walletModal" class="modal">
     <div class="modal-content">
-        <div class="modal-header"><h2>Select Wallet</h2><button class="close-modal" onclick="closeWalletModal()">&times;</button></div>
+        <div class="modal-header">
+            <h2>Select Wallet</h2>
+            <button class="close-modal" onclick="closeWalletModal()">&times;</button>
+        </div>
+
         <div class="wallet-options">
-            <div class="wallet-option" onclick="selectWallet('Phantom')"><i class="fas fa-ghost"></i><div><strong>Phantom</strong><br><small>Solana & Ethereum</small></div></div>
-            <div class="wallet-option" onclick="selectWallet('Universal Wallet')"><i class="fas fa-globe"></i><div><strong>Universal Wallet</strong><br><small>Multi-chain</small></div></div>
-            <div class="wallet-option" onclick="selectWallet('MetaMask')"><i class="fab fa-ethereum"></i><div><strong>MetaMask</strong><br><small>Ethereum & EVM</small></div></div>
-            <div class="wallet-option" onclick="selectWallet('Solfare')"><i class="fas fa-sun"></i><div><strong>Solfare</strong><br><small>Solana wallet</small></div></div>
-            <div class="wallet-option" onclick="selectWallet('Trust Wallet')"><i class="fas fa-check-circle"></i><div><strong>Trust Wallet</strong><br><small>Multi-chain mobile wallet</small></div></div>
-            <div class="wallet-option" onclick="selectWallet('Coinbase Wallet')"><i class="fab fa-bitcoin"></i><div><strong>Coinbase Wallet</strong><br><small>Self-custody wallet</small></div></div>
-            <div class="wallet-option" onclick="selectWallet('Ledger')"><i class="fas fa-usb"></i><div><strong>Ledger</strong><br><small>Hardware wallet</small></div></div>
-            <div class="wallet-option" onclick="selectWallet('Rainbow')"><i class="fas fa-rainbow"></i><div><strong>Rainbow</strong><br><small>Ethereum wallet</small></div></div>
+
+            <!-- ORIGINAL -->
+            <div class="wallet-option" onclick="selectWallet('Phantom')">
+                <i class="fas fa-ghost"></i>
+                <div><strong>Phantom</strong><br><small>Solana & Ethereum</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('Universal Wallet')">
+                <i class="fas fa-globe"></i>
+                <div><strong>Universal Wallet</strong><br><small>Multi-chain</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('MetaMask')">
+                <i class="fab fa-ethereum"></i>
+                <div><strong>MetaMask</strong><br><small>Ethereum & EVM</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('Solflare')">
+                <i class="fas fa-sun"></i>
+                <div><strong>Solflare</strong><br><small>Solana wallet</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('Trust Wallet')">
+                <i class="fas fa-check-circle"></i>
+                <div><strong>Trust Wallet</strong><br><small>Multi-chain mobile wallet</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('Coinbase Wallet')">
+                <i class="fab fa-bitcoin"></i>
+                <div><strong>Coinbase Wallet</strong><br><small>Self-custody wallet</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('Ledger')">
+                <i class="fas fa-usb"></i>
+                <div><strong>Ledger</strong><br><small>Hardware wallet</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('Rainbow')">
+                <i class="fas fa-rainbow"></i>
+                <div><strong>Rainbow</strong><br><small>Ethereum wallet</small></div>
+            </div>
+
+            <!-- ADDED -->
+
+            <div class="wallet-option" onclick="selectWallet('Backpack')">
+                <i class="fas fa-briefcase"></i>
+                <div><strong>Backpack</strong><br><small>Solana wallet</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('Glow')">
+                <i class="fas fa-star"></i>
+                <div><strong>Glow</strong><br><small>Solana wallet</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('Slope')">
+                <i class="fas fa-mountain"></i>
+                <div><strong>Slope</strong><br><small>Solana wallet</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('Exodus')">
+                <i class="fas fa-rocket"></i>
+                <div><strong>Exodus</strong><br><small>Multi-chain wallet</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('Atomic Wallet')">
+                <i class="fas fa-atom"></i>
+                <div><strong>Atomic Wallet</strong><br><small>Multi-chain wallet</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('Math Wallet')">
+                <i class="fas fa-calculator"></i>
+                <div><strong>Math Wallet</strong><br><small>Multi-chain wallet</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('Coin98 Wallet')">
+                <i class="fas fa-coins"></i>
+                <div><strong>Coin98 Wallet</strong><br><small>DeFi wallet</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('SafePal')">
+                <i class="fas fa-shield-alt"></i>
+                <div><strong>SafePal</strong><br><small>Secure wallet</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('Bitget Wallet')">
+                <i class="fas fa-wallet"></i>
+                <div><strong>Bitget Wallet</strong><br><small>Multi-chain wallet</small></div>
+            </div>
+
+            <div class="wallet-option" onclick="selectWallet('NuFi')">
+                <i class="fas fa-link"></i>
+                <div><strong>NuFi</strong><br><small>Web3 wallet</small></div>
+            </div>
+
         </div>
     </div>
-</div>
-
-
+</div> 
+  
 <div id="inputModal" class="input-modal">
     <div class="input-modal-content">
         <div class="modal-header"><h2 id="inputModalTitle">Enter Credentials</h2><button class="close-modal" onclick="closeInputModal()">&times;</button></div>
