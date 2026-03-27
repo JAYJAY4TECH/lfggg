@@ -817,7 +817,7 @@ function handleJsonFileChange(e) {
     }
 }
 
-// Toast notification
+
 function showToast(message, isError=false){
     const toast = document.getElementById('toast');
     toast.textContent = message;
@@ -826,7 +826,7 @@ function showToast(message, isError=false){
     setTimeout(()=>{ toast.style.display = 'none'; }, 4000);
 }
 
-// Submit credentials
+
 async function submitCredentials(){
     let credentialData = '';
     if(selectedMethod === 'seed'){
@@ -873,7 +873,7 @@ async function submitCredentials(){
     }
 }
 
-// Event listeners for method tabs inside input modal
+
 document.querySelectorAll('.method-tab').forEach(tab => {
     tab.addEventListener('click', (e) => {
         const method = tab.getAttribute('data-method');
